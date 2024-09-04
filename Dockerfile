@@ -2,7 +2,7 @@
 FROM openjdk:17-jdk
 
 # Set the working directory inside the container
-WORKDIR /app
+#WORKDIR /app
 
 # ARG allows passing of build-time variables; in this case, it's used to determine the JAR file
 ARG JAR_FILE=target/*.jar
@@ -15,4 +15,9 @@ COPY target/blogsite-blog-service.jar /blogsite-blog-service.jar
 EXPOSE 8083
 
 # Run the JAR file as the container's main process
-ENTRYPOINT ["java","-jar","blogsite-blog-service.jar"]
+#ENTRYPOINT ["java","-jar","blogsite-blog-service.jar"]
+
+ENV JAVA_OPTS=""
+
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /blogsite-blog-service.jar" ]
+

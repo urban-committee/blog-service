@@ -1,10 +1,12 @@
-server:
-  port: 8083
 spring:
   application:
-    name: BLOG-SERVICE
+    name: blogsite-blog-service
+  zipkin:
+    enabled: true
+    base-url: ${ZIPKIN_SERVER:http://localhost:9411/}
+
   datasource:
-    url: jdbc:mysql://localhost:3306/blogsite
+    url: jdbc:mysql://mysql:3306/blogsite
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -22,15 +24,28 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
+
+server:
+  port: ${port:8083}
+
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8081/eureka/
-  instance:
-    hostname: localhost
+      defaultZone: ${EUREKA_SERVER:http://blogsite-service-registry:8081/eureka/}
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
 
 springdoc:
   api-docs:
     path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
+
