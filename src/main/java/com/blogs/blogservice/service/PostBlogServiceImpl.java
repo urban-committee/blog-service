@@ -38,7 +38,7 @@ public class PostBlogServiceImpl implements PostBlogService {
 
     @Override
     public PostBlog findById(Long id) {
-        return null;
+        return postRepository.findById(id).orElse(null);
     }
 
     @Override
